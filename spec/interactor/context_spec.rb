@@ -7,14 +7,14 @@ module Interactor
         context = Context.build(foo: "bar")
 
         expect(context).to be_a(Context)
-        expect(context).to eq(foo: "bar")
+        expect(context.foo).to eq("bar")
       end
 
       it "builds an empty context if no hash is given" do
         context = Context.build
 
         expect(context).to be_a(Context)
-        expect(context).to eq({})
+        expect(context.to_h).to eq({})
       end
 
       it "doesn't affect the original hash" do
@@ -39,14 +39,6 @@ module Interactor
         }.to change {
           context1[:foo]
         }.from("bar").to("baz")
-      end
-    end
-
-    describe "#initialize" do
-      it "defaults to empty" do
-        expect {
-          expect(Context.new).to eq({})
-        }.not_to raise_error
       end
     end
 

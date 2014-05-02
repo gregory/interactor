@@ -1,13 +1,9 @@
-require "delegate"
+require "ostruct"
 
 module Interactor
-  class Context < SimpleDelegator
+  class Context < OpenStruct
     def self.build(context = {})
       self === context ? context : new(context.dup)
-    end
-
-    def initialize(context = {})
-      super(context)
     end
 
     def success?
@@ -19,7 +15,7 @@ module Interactor
     end
 
     def fail!(context = {})
-      update(context)
+      context.each { |k, v| send("#{k}=", v) }
       @failure = true
     end
   end
